@@ -1,2 +1,5 @@
 # SqueezeNet_from_scratch
-Implementation of SqueezeNet from scratch with SE(SqueezeAndExcitation)
+Implementation of SqueezeNet from scratch 
+
+### Paper(SqueezeNet): https://arxiv.org/pdf/1602.07360.pdf
+### Paper(SqueezeAndExcitation): https://arxiv.org/pdf/1709.01507.pdf
