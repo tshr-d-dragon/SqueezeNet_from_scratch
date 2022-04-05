@@ -10,18 +10,17 @@ def SqueezeNet(input_shape, classes):
 
   def Fire(inputs, fs, fe):
     
-    s1 = Conv2D(filters=fs, kernel_size=1, padding='same', use_bias=False)(inputs)
-    e1 = Conv2D(filters=fe, kernel_size=1, padding='same', use_bias=False)(s1)
-    e3 = Conv2D(filters=fe, kernel_size=3, padding='same', use_bias=False)(s1)
+    s1 = Conv2D(filters=fs, kernel_size=1, padding='same', use_bias=False, activation='relu')(inputs)
+    e1 = Conv2D(filters=fe, kernel_size=1, padding='same', use_bias=False, activation='relu')(s1)
+    e3 = Conv2D(filters=fe, kernel_size=3, padding='same', use_bias=False, activation='relu')(s1)
     
     output = Concatenate()([e1, e3])
-    output = Activation('relu')(output)
   
     return output
 
 
   inputs = Input(input_shape)
-  x1 = Conv2D(filters=96, kernel_size=7, strides=2, padding='same', use_bias=False)(inputs)
+  x1 = Conv2D(filters=96, kernel_size=7, strides=2, padding='same', use_bias=False, activation='relu')(inputs)
   x1= Activation('relu')(x1)
   x1 = MaxPooling2D(pool_size=3, strides=2, padding='same')(x1)
 
@@ -37,8 +36,7 @@ def SqueezeNet(input_shape, classes):
   x1 = MaxPooling2D(pool_size=3, strides=2, padding='same')(f8)
 
   f8 = Fire(x1, 64, 256)
-  x1 = Conv2D(filters=1000, kernel_size=1, padding='same', use_bias=False)(f8)
-  x1 = Activation('relu')(x1)
+  x1 = Conv2D(filters=1000, kernel_size=1, padding='same', use_bias=False, activation='relu')(f8)
   x1 = GlobalAveragePooling2D()(x1)
   x1 = Dropout(0.5)(x1)
   x1 = BatchNormalization()(x1)
