@@ -1,7 +1,7 @@
 import os
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 from keras.layers import Conv2D, BatchNormalization, Activation, MaxPooling2D, Dropout
-from keras.layers import Concatenate, Input, GlobalAveragePooling2D, Dense
+from keras.layers import Concatenate, Input, GlobalAveragePooling2D, Dense, Multiply
 from keras.models import Model
 
 
