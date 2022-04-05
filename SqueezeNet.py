@@ -36,11 +36,8 @@ def SqueezeNet(input_shape, classes):
   x1 = MaxPooling2D(pool_size=3, strides=2, padding='same')(f8)
 
   f8 = Fire(x1, 64, 256)
-  x1 = Conv2D(filters=1000, kernel_size=1, padding='same', use_bias=False, activation='relu')(f8)
+  x1 = Conv2D(filters=classes, kernel_size=1, padding='same', use_bias=False, activation='relu')(f8)
   x1 = GlobalAveragePooling2D()(x1)
-  x1 = Dropout(0.5)(x1)
-  x1 = BatchNormalization()(x1)
-  x1 = Dense(classes, use_bias=False)(x1)
 
   if classes == 1:
     x1 = Activation('sigmoid')(x1)
