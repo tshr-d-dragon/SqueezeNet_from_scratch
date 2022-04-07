@@ -22,18 +22,22 @@ def SqueezeNet(input_shape, classes):
 
   
   def Fire(inputs, fs, fe):
-    
-    s1 = Conv2D(filters=fs, kernel_size=1, padding='same', use_bias=False, activation='relu')(inputs)
-    e1 = Conv2D(filters=fe, kernel_size=1, padding='same', use_bias=False, activation='relu')(s1)
-    e3 = Conv2D(filters=fe, kernel_size=3, padding='same', use_bias=False, activation='relu')(s1)
-    
-    output = Concatenate()([e1, e3])
+
+      s1 = Conv2D(filters=fs, kernel_size=1, padding='same', use_bias=False, activation='relu')(inputs)
+      s1 = BatchNormalization()(s1)
+      e1 = Conv2D(filters=fe, kernel_size=1, padding='same', use_bias=False, activation='relu')(s1)
+      e1 = BatchNormalization()(e1)
+      e3 = Conv2D(filters=fe, kernel_size=3, padding='same', use_bias=False, activation='relu')(s1)
+      e3 = BatchNormalization()(e3)
+
+      output = Concatenate()([e1, e3])
   
-    return output
+      return output
 
 
   inputs = Input(input_shape)
   x1 = Conv2D(filters=96, kernel_size=7, strides=2, padding='same', use_bias=False, activation='relu')(inputs)
+  x1 =  BatchNormalization()(x1)
   x1 = MaxPooling2D(pool_size=3, strides=2, padding='same')(x1)
 
   f2 = Fire(x1, 16, 64)
@@ -59,11 +63,11 @@ def SqueezeNet(input_shape, classes):
     x1 = Activation('softmax')(x1)
 
   model = Model(inputs=inputs, outputs=x1)
-  model.summary()
+  # model.summary()
 
   return model
 
 
 if __name__== '__main__':
 
-  SqueezeNet(input_shape = (224, 224, 3), classes=1000)
+  model = SqueezeNet(input_shape = (224, 224, 3), classes=1000)
